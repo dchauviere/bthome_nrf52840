@@ -2,11 +2,11 @@ PROJECT_NAME     := project_template
 TARGETS          := nrf52840_xxaa
 OUTPUT_DIRECTORY := _build
 
-SDK_ROOT ?= ../../../../../..
+SDK_ROOT ?= ./nrf52
 PROJ_DIR := .
 
 $(OUTPUT_DIRECTORY)/nrf52840_xxaa.out: \
-	LINKER_SCRIPT  := nrf52840.ld
+	LINKER_SCRIPT  := config/nrf52840.ld
 
 # Source files common to all targets
 SRC_FILES += \
@@ -49,7 +49,7 @@ SRC_FILES += \
 	$(SDK_ROOT)/modules/nrfx/drivers/src/nrfx_uart.c \
 	$(SDK_ROOT)/modules/nrfx/drivers/src/nrfx_uarte.c \
 	$(SDK_ROOT)/components/libraries/bsp/bsp.c \
-	$(PROJ_DIR)/main.c \
+	$(PROJ_DIR)/src/main.c \
 	$(SDK_ROOT)/components/ble/common/ble_advdata.c \
 	$(SDK_ROOT)/components/ble/common/ble_srv_common.c \
 	$(SDK_ROOT)/external/utf_converter/utf.c \
@@ -99,7 +99,8 @@ INC_FOLDERS += \
 	$(SDK_ROOT)/components/libraries/cli \
 	$(SDK_ROOT)/components/libraries/crc16 \
 	$(SDK_ROOT)/components/libraries/util \
-	./ \
+	./config \
+	./src \
 	$(SDK_ROOT)/components/libraries/csense \
 	$(SDK_ROOT)/components/libraries/balloc \
 	$(SDK_ROOT)/components/libraries/ecc \
@@ -214,7 +215,7 @@ $(foreach target, $(TARGETS), $(call define_target, $(target)))
 
 .PHONY: flash
 
-SDK_CONFIG_FILE := sdk_config.h
+SDK_CONFIG_FILE := config/sdk_config.h
 CMSIS_CONFIG_TOOL := $(SDK_ROOT)/external_tools/cmsisconfig/CMSIS_Configuration_Wizard.jar
 
 sdk_config:
